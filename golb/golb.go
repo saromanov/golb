@@ -12,6 +12,7 @@ import (
 var (
 	errNoServers          = errors.New("server is not defined")
 	errUnknownBalanceType = errors.New("unknown balance type")
+	errNoBalancer = errors.New("balancer is not defined")
 )
 
 type GoLB struct {
@@ -44,7 +45,11 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 	if len(g.Servers) == 0 {
 		return nil, errNoServers
 	}
+	if g.balance == nil {
+		return nil, errNoBalancer 
+	}
 
+	fmt.Println(g.balance)
 	serv, err := g.balance.Do()
 	if err != nil {
 		return nil, fmt.Errorf("unable to apply balancing: %v", err)
