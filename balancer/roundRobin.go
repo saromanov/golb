@@ -22,5 +22,9 @@ func (rr *RoundRobin) Do() (*server.Server, error) {
 func (rr *RoundRobin) updateNum() {
 	rr.Lock()
 	defer rr.Unlock()
+	if rr.serverNum == uint32(len(rr.Servers)-1) {
+		rr.serverNum = 0
+		return
+	}
 	rr.serverNum++
 }
