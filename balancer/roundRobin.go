@@ -9,7 +9,7 @@ import (
 type RoundRobin struct {
 	*sync.Mutex
 	Connections uint32
-	Servers     Servers
+	Servers     server.Servers
 	serverNum   uint32
 }
 
