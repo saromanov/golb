@@ -12,7 +12,7 @@ import (
 var (
 	errNoServers          = errors.New("server is not defined")
 	errUnknownBalanceType = errors.New("unknown balance type")
-	errNoBalancer = errors.New("balancer is not defined")
+	errNoBalancer         = errors.New("balancer is not defined")
 )
 
 type GoLB struct {
@@ -40,13 +40,22 @@ func (g *GoLB) Build() error {
 	return nil
 }
 
+// AddServer adds a new server to the GoLB
+func (g *GoLB) AddServer(s *server.Server) error {
+	if s == nil || s.Host == "" {
+		return fmt.Errorf("unable to add server")
+	}
+	g.Servers = append(g.Servers, s)
+	return nil
+}
+
 // SelectServer return server by the index
 func (g *GoLB) SelectServer() (*server.Server, error) {
 	if len(g.Servers) == 0 {
 		return nil, errNoServers
 	}
 	if g.balance == nil {
-		return nil, errNoBalancer 
+		return nil, errNoBalancer
 	}
 
 	fmt.Println(g.balance)
