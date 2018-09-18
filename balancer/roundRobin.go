@@ -7,7 +7,7 @@ import (
 )
 
 type RoundRobin struct {
-	*sync.Mutex
+	sync.Mutex
 	Connections uint32
 	Servers     server.Servers
 	serverNum   uint32
