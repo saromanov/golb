@@ -1,6 +1,7 @@
 package golb
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -38,11 +39,15 @@ func (g *GoLB) Build() error {
 	return nil
 }
 
-// SelectServers return server by the index
+// SelectServer return server by the index
 func (g *GoLB) SelectServer() (*server.Server, error) {
 	if len(g.Servers) == 0 {
 		return nil, errNoServers
 	}
 
-	return nil, nil
+	serv, err := g.balance.Do()
+	if err != nil {
+		return nil, fmt.Errorf("unable to apply balancing: %v", err)
+	}
+	return serv, nil
 }
