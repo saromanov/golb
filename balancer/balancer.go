@@ -1,9 +1,11 @@
 package balancer
 
-import "github.com/saromanov/golb/golb"
+import (
+	"github.com/saromanov/golb/server"
+)
 
 // Servers provides definition of the list of servers
-type Servers []*golb.Server
+type Servers []*server.Server
 
 func (s Servers) Len() int { return len(s) }
 
@@ -18,5 +20,5 @@ func (s Servers) Less(i, j int) bool {
 // Balancer defines basic interface for
 // load balancing algorithms
 type Balancer interface {
-	Do() (*golb.Server, error)
+	Do() (*server.Server, error)
 }

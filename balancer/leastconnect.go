@@ -4,7 +4,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/saromanov/golb/golb"
+	"github.com/saromanov/golb/server"
 )
 
 type LeastConnect struct {
@@ -15,7 +15,7 @@ type LeastConnect struct {
 }
 
 // Do provides sorting of the servers by active connections
-func (rr *LeastConnect) Do() (*golb.Server, error) {
+func (rr *LeastConnect) Do() (*server.Server, error) {
 	sort.Sort(rr.Servers)
 	return rr.Servers[0], nil
 }

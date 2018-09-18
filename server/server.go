@@ -1,5 +1,6 @@
-package golb
+package server
 
+// Server defines struct for the server definition
 type Server struct {
 	Host              string
 	ActiveConnections uint32

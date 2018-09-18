@@ -3,7 +3,7 @@ package balancer
 import (
 	"sync"
 
-	"github.com/saromanov/golb/golb"
+	"github.com/saromanov/golb/server"
 )
 
 type RoundRobin struct {
@@ -13,7 +13,7 @@ type RoundRobin struct {
 	serverNum   uint32
 }
 
-func (rr *RoundRobin) Do() (*golb.Server, error) {
+func (rr *RoundRobin) Do() (*server.Server, error) {
 	idx := rr.serverNum
 	rr.updateNum()
 	return rr.Servers[idx], nil
