@@ -85,4 +85,5 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Err Proxy: %v", err)
 	}
+	serv.IncSuccessRequests()
 }

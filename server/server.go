@@ -5,6 +5,9 @@ type Server struct {
 	Host              string
 	Port              uint32
 	ActiveConnections uint32
+	Requests          uint32
+	FailedRequests    uint32
+	SuccessRequests   uint32
 }
 
 // Servers provides definition of the list of servers
@@ -29,4 +32,10 @@ func (s *Server) GetActiveConnections() uint32 {
 // StartServer provides starting of the server
 func (s *Server) StartServer() error {
 	return nil
+}
+
+// IncRequests provides increment of requests
+func (s *Server) IncSuccessRequests() {
+	s.Requests++
+	s.SuccessRequests++
 }
