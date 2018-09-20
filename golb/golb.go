@@ -24,6 +24,8 @@ type GoLB struct {
 	ConnectionTimeout time.Duration
 	balance           balancer.Balancer
 	Balancer          string
+	Protocol          string
+	Port              uint32
 }
 
 // Build provides building of the GoLB
