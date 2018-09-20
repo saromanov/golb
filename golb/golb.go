@@ -26,6 +26,7 @@ type GoLB struct {
 	Balancer          string
 	Protocol          string
 	Port              uint32
+	Scheme            string
 }
 
 // Build provides building of the GoLB
@@ -40,6 +41,9 @@ func (g *GoLB) Build() error {
 		g.balance = &balancer.LeastConnect{Servers: g.Servers}
 	default:
 		return errUnknownBalanceType
+	}
+	if g.Scheme == "" {
+		g.Scheme = "http"
 	}
 	return nil
 }
