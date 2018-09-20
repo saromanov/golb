@@ -80,9 +80,7 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Err: %v", err)
 	}
-
-	fmt.Println(serv)
-	proxy := &HTTPProxy{serv: serv}
+	proxy := &HTTPProxy{serv: serv, Scheme: g.Scheme}
 	err = proxy.Do(w, r)
 	if err != nil {
 		log.Printf("Err Proxy: %v", err)

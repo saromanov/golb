@@ -10,12 +10,13 @@ import (
 
 // HTTPProxy defines main struct for the proxy
 type HTTPProxy struct {
-	serv *server.Server
+	serv   *server.Server
+	Scheme string
 }
 
 // Do provides executing of the proxy
 func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) error {
-	u, err := url.Parse("http://" + p.serv.Host + r.RequestURI)
+	u, err := url.Parse(fmt.Sprintf("%s://%s:%d", p.Scheme, p.serv.Host, p.serv.Port) + r.RequestURI)
 	if err != nil {
 		return err
 	}
@@ -24,8 +25,8 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) error {
 			return http.ErrUseLastResponse
 		},
 	}
-	r.Header.Set("X-Forwarded-Host", "127.0.0.1")
-	r.Host = "127.0.0.1"
+	r.Header.Set("X-Forwarded-Host", p.serv.Host)
+	r.Host = p.serv.Host
 	r.URL = u
 	r.RequestURI = ""
 	resp, err := client.Do(r)

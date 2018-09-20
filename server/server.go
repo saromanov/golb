@@ -3,6 +3,7 @@ package server
 // Server defines struct for the server definition
 type Server struct {
 	Host              string
+	Port              uint32
 	ActiveConnections uint32
 }
 
