@@ -31,7 +31,7 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) error {
 	r.RequestURI = ""
 	resp, err := client.Do(r)
 	if err != nil {
-		return err
+		return &httpRequestError{err: err, req: r}
 	}
 
 	fmt.Println(resp)
