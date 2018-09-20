@@ -2,6 +2,7 @@ package golb
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -67,5 +68,17 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 	return serv, nil
 }
 
+// HandleHTTP implements middleware for http requests
 func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
+	serv, err := g.SelectServer()
+	if err != nil {
+		log.Printf("Err: %v", err)
+	}
+
+	fmt.Println(serv)
+	proxy := &HTTPProxy{serv: serv}
+	err = proxy.Do(w, r)
+	if err != nil {
+		log.Printf("Err Proxy: %v", err)
+	}
 }
