@@ -75,8 +75,15 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 // HandleHTTP implements middleware for http requests
 func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	serv, err := g.SelectServer()
-	if err != nil {
-		log.Printf("Err: %v", err)
+	switch err {
+	case errNoServers:
+		log.Printf(err.Error())
+		return
+	case errUnknownBalanceType:
+		log.Printf(err.Error())
+		return
+	default:
+		// TODO: try again
 	}
 	proxy := &HTTPProxy{serv: serv, Scheme: g.Scheme}
 	err = proxy.Do(w, r)
