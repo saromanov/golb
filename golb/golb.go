@@ -65,8 +65,6 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 	if g.balance == nil {
 		return nil, errNoBalancer
 	}
-
-	fmt.Println(g.balance)
 	serv, err := g.balance.Do()
 	if err != nil {
 		return nil, fmt.Errorf("unable to apply balancing: %v", err)
