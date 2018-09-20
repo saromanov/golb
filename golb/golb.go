@@ -45,6 +45,9 @@ func (g *GoLB) Build() error {
 	if g.Scheme == "" {
 		g.Scheme = "http"
 	}
+	if g.Protocol == "" {
+		g.Protocol = "tcp"
+	}
 	return nil
 }
 
