@@ -24,3 +24,8 @@ func (s Servers) Less(i, j int) bool {
 func (s *Server) GetActiveConnections() uint32 {
 	return s.ActiveConnections
 }
+
+// StartServer provides starting of the server
+func (s *Server) StartServer() error {
+	return nil
+}

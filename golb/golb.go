@@ -2,6 +2,7 @@ package golb
 
 import (
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/pkg/errors"
@@ -64,4 +65,7 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 		return nil, fmt.Errorf("unable to apply balancing: %v", err)
 	}
 	return serv, nil
+}
+
+func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 }
