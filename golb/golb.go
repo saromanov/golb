@@ -84,7 +84,7 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	case urlParseError:
 		log.Printf("Err Parse: %v", err)
 	case httpRequestError:
-		log.Printf("Err Request: %v", err)
+		log.Printf("HandleHTTP error: %v", err)
 	}
 	serv.IncSuccessRequests()
 }
