@@ -1,25 +1,35 @@
 package main
 
 import (
-	"io/ioutil"
-
-	"gopkg.in/yaml.v2"
+	"encoding/json"
+	"fmt"
+	"os"
 )
 
+// Config provides definition of the config
 type Config struct {
+	MaxConnections    uint32            `json:"max_connections"`
+	ClientTimeout     string            `json:"client_timeout"`
+	ConnectionTimeout string            `json:"connection_timeout"`
+	Balancer          string            `json:"balancer"`
+	Protocol          string            `json:"protocol"`
+	Port              uint32            `json:"port"`
+	Scheme            string            `json:"scheme"`
+	ProxyHeaders      map[string]string `json:"proxy_headers"`
 }
 
 // ReadConfig provides redaing of the config
 func ReadConfig(path string) (*Config, error) {
 	var conf *Config
-	file, err := ioutil.ReadFile(path)
+	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
 
-	err = yaml.Unmarshal(file, &conf)
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&conf)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("unable to read config: %v", err)
 	}
 	return conf, nil
 }
