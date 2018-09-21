@@ -27,6 +27,7 @@ type GoLB struct {
 	Protocol          string
 	Port              uint32
 	Scheme            string
+	Connections       uint32
 }
 
 // Build provides building of the GoLB
@@ -88,6 +89,7 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	default:
 		// TODO: try again
 	}
+	g.Connections++
 	proxy := &HTTPProxy{serv: serv, Scheme: g.Scheme}
 	err = proxy.Do(w, r)
 	switch err := err.(type) {
