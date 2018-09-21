@@ -12,6 +12,7 @@ import (
 type HTTPProxy struct {
 	serv   *server.Server
 	Scheme string
+	Headers map[string]string
 }
 
 // Do provides executing of the proxy
@@ -26,6 +27,11 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) error {
 		},
 	}
 	r.Header.Set("X-Forwarded-Host", p.serv.Host)
+	if len(p.Headers) > 0 {
+		for key, value := range p.Headers {
+			r.Header.Set(key, value)
+		}
+	}
 	r.Host = p.serv.Host
 	r.URL = u
 	r.RequestURI = ""

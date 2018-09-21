@@ -28,6 +28,7 @@ type GoLB struct {
 	Port              uint32
 	Scheme            string
 	Connections       uint32
+	ProxyHeaders      map[string]string
 }
 
 // Build provides building of the GoLB
@@ -48,6 +49,9 @@ func (g *GoLB) Build() error {
 	}
 	if g.Protocol == "" {
 		g.Protocol = "tcp"
+	}
+	if len(g.ProxyHeaders) == 0 {
+		g.ProxyHeaders = map[string]string{}
 	}
 	return nil
 }
