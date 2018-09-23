@@ -9,9 +9,11 @@ import (
 	"github.com/saromanov/golb/server"
 )
 
-// makeDefault provides creating of the 
-// Golb object with default params 
-func makeDefault() golb.GoLB{
+const DefaultAddress = "127.0.0.1:8099"
+
+// makeDefault provides creating of the
+// Golb object with default params
+func makeDefault() golb.GoLB {
 	return golb.GoLB{
 		MaxConnections:    10,
 		ClientTimeout:     1 * time.Second,
@@ -33,14 +35,14 @@ func makeDefault() golb.GoLB{
 func main() {
 
 	var g golb.GoLB
-	err := ReadConfig("config.json")
+	_, err := ReadConfig("config.json")
 	if err != nil {
 		g = makeDefault()
 	}
 	g.Build()
 
 	http.HandleFunc("/", g.HandleHTTP)
-	err = http.ListenAndServe("127.0.0.1:8099", nil)
+	err = http.ListenAndServe(DefaultAddress, nil)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
