@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/saromanov/golb/config"
 	"github.com/saromanov/golb/golb"
 	"github.com/saromanov/golb/server"
 )
@@ -35,13 +36,14 @@ func makeDefault() golb.GoLB {
 func main() {
 
 	var g golb.GoLB
-	_, err := ReadConfig("config.json")
+	_, err := config.ReadConfig("./configs/config.json")
 	if err != nil {
 		g = makeDefault()
 	}
 	g.Build()
 
 	http.HandleFunc("/", g.HandleHTTP)
+	fmt.Println("Starting of the server...")
 	err = http.ListenAndServe(DefaultAddress, nil)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
