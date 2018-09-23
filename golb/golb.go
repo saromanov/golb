@@ -18,17 +18,18 @@ var (
 )
 
 type GoLB struct {
-	Servers           []*server.Server
-	MaxConnections    uint32
-	ClientTimeout     time.Duration
-	ConnectionTimeout time.Duration
-	balance           balancer.Balancer
-	Balancer          string
-	Protocol          string
-	Port              uint32
-	Scheme            string
-	Connections       uint32
-	ProxyHeaders      map[string]string
+	Servers             []*server.Server
+	MaxConnections      uint32
+	ClientTimeout       time.Duration
+	ConnectionTimeout   time.Duration
+	balance             balancer.Balancer
+	Balancer            string
+	Protocol            string
+	Port                uint32
+	Scheme              string
+	Connections         uint32
+	ProxyHeaders        map[string]string
+	FailedRequestsLimit uint32
 }
 
 // Build provides building of the GoLB
@@ -101,6 +102,23 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Err Parse: %v", err)
 	case httpRequestError:
 		log.Printf("HandleHTTP error: %v", err)
+		g.checkFailedRequests(serv)
 	}
 	serv.IncSuccessRequests()
+}
+
+// checkfailedRequests increments number of failed requests
+// for the server and if this is reached limit,
+// then its removing server from the list
+func (g *GoLB) checkFailedRequests(serv *server.Server) {
+	serv.FailedRequests++
+	if g.FailedRequestsLimit != 0 && serv.FailedRequests > g.FailedRequestsLimit {
+		log.Printf("Remove server: %s:%d from the list ", serv.Host, serv.Port)
+		serv.RemovedFromList = true
+		for i, s := range g.Servers {
+			if s.RemovedFromList {
+				g.Servers = append(g.Servers[:i], g.Servers[i+1:]...)
+			}
+		}
+	}
 }

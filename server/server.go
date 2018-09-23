@@ -6,8 +6,12 @@ type Server struct {
 	Port              uint32
 	ActiveConnections uint32
 	Requests          uint32
-	FailedRequests    uint32
-	SuccessRequests   uint32
+
+	// After n failed requests,
+	// server removing from the list
+	FailedRequests  uint32
+	SuccessRequests uint32
+	RemovedFromList bool
 }
 
 // Servers provides definition of the list of servers

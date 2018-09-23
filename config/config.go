@@ -11,15 +11,16 @@ import (
 
 // Config provides definition of the config
 type Config struct {
-	MaxConnections    uint32            `json:"max_connections"`
-	ClientTimeout     string            `json:"client_timeout"`
-	ConnectionTimeout string            `json:"connection_timeout"`
-	Balancer          string            `json:"balancer"`
-	Protocol          string            `json:"protocol"`
-	Port              uint32            `json:"port"`
-	Scheme            string            `json:"scheme"`
-	ProxyHeaders      map[string]string `json:"proxy_headers"`
-	Servers           []Server          `json:"servers"`
+	MaxConnections      uint32            `json:"max_connections"`
+	ClientTimeout       string            `json:"client_timeout"`
+	ConnectionTimeout   string            `json:"connection_timeout"`
+	Balancer            string            `json:"balancer"`
+	Protocol            string            `json:"protocol"`
+	Port                uint32            `json:"port"`
+	Scheme              string            `json:"scheme"`
+	ProxyHeaders        map[string]string `json:"proxy_headers"`
+	Servers             []Server          `json:"servers"`
+	FailedRequestsLimit uint32            `json:"failed_requests_limit"`
 }
 
 // Server defines config for the server
@@ -47,11 +48,12 @@ func ReadConfig(path string) (*Config, error) {
 //MakeGoLBObject returns golb object after reading of config
 func MakeGoLBObject(conf *Config) golb.GoLB {
 	g := golb.GoLB{
-		MaxConnections: conf.MaxConnections,
-		Balancer:       conf.Balancer,
-		Protocol:       conf.Protocol,
-		Port:           conf.Port,
-		Scheme:         conf.Scheme,
+		MaxConnections:      conf.MaxConnections,
+		Balancer:            conf.Balancer,
+		Protocol:            conf.Protocol,
+		Port:                conf.Port,
+		Scheme:              conf.Scheme,
+		FailedRequestsLimit: conf.FailedRequestsLimit,
 	}
 
 	servers := []*server.Server{}
