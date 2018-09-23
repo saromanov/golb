@@ -35,10 +35,10 @@ func makeDefault() golb.GoLB {
 }
 func main() {
 
-	var g golb.GoLB
-	_, err := config.ReadConfig("./configs/config.json")
-	if err != nil {
-		g = makeDefault()
+	g := makeDefault()
+	cfg, err := config.ReadConfig("./configs/config.json")
+	if err == nil {
+		g = config.MakeGoLBObject(cfg)
 	}
 	g.Build()
 
