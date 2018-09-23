@@ -1,0 +1,13 @@
+{
+    "max_connections": 100,
+    "client_timeout": "2s",
+    "protocol": "tcp",
+    "scheme": "http",
+    "servers": [{
+        "host": "127.0.0.1",
+        "port": 8900
+    }, {
+        "host": "127.0.0.1",
+        "port": 8901
+    }]
+}
