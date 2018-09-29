@@ -12,6 +12,7 @@ type Server struct {
 	FailedRequests  uint32
 	SuccessRequests uint32
 	RemovedFromList bool
+	Weight          int32
 }
 
 // Servers provides definition of the list of servers

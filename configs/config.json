@@ -3,6 +3,7 @@
     "client_timeout": "2s",
     "protocol": "tcp",
     "scheme": "http",
+    "failed_requests_limit": 5,
     "servers": [{
         "host": "127.0.0.1",
         "port": 8900
