@@ -37,7 +37,6 @@ func (rr *WeightedRoundRobin) getServer() *server.Server {
 			return rr.Servers[i]
 		}
 	}
-	return nil
 }
 
 // getMaxWeight return max weight from all servers
