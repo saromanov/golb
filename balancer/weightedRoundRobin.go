@@ -25,7 +25,7 @@ func (rr *WeightedRoundRobin) getServer() *server.Server {
 	for {
 		i = (i + 1) % numServers
 		if i == 0 {
-			cw = gcd(rr.Servers)
+			cw = gcd(1, 2)
 			if cw <= 0 {
 				cw = getMaxWeight(rr.Servers)
 				if cw == 0 {
@@ -52,8 +52,8 @@ func getMaxWeight(servers server.Servers) int32 {
 	return maxWeight
 }
 
-func gcd(x, y int) int32 {
-	var n int
+func gcd(x, y int32) int32 {
+	var n int32
 	for {
 		n = x % y
 		if n <= 0 {
