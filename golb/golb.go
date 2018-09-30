@@ -108,7 +108,7 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	g.Connections++
 	proxy := &HTTPProxy{serv: serv, Scheme: g.Scheme}
-	err = proxy.Do(w, r)
+	_, err = proxy.Do(w, r)
 	switch err := err.(type) {
 	case urlParseError:
 		log.Printf("Err Parse: %v", err)
