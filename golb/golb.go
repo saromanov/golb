@@ -57,7 +57,7 @@ func (g *GoLB) Build() error {
 	if len(g.ProxyHeaders) == 0 {
 		g.ProxyHeaders = map[string]string{}
 	}
-	g.Stats = &Stats{StatusCodes: map[uint32]uint32{}}
+	g.Stats = &Stats{StatusCodes: map[int]uint32{}}
 	return nil
 }
 
@@ -108,7 +108,7 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	g.Connections++
 	proxy := &HTTPProxy{serv: serv, Scheme: g.Scheme}
-	_, err = proxy.Do(w, r)
+	resp, err := proxy.Do(w, r)
 	switch err := err.(type) {
 	case urlParseError:
 		log.Printf("Err Parse: %v", err)
@@ -116,7 +116,12 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Printf("HandleHTTP error: %v", err)
 		g.checkFailedRequests(serv)
 	}
-	serv.IncSuccessRequests()
+	g.updateStats(serv, resp)
+}
+
+func (g *GoLB) updateStats(s *server.Server, r *HTTPProxyResponse) {
+	g.Stats.StatusCodes[r.statusCode]++
+	s.IncSuccessRequests()
 }
 
 // checkfailedRequests increments number of failed requests
