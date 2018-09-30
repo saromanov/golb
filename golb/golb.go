@@ -88,6 +88,11 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 	return serv, nil
 }
 
+// GetStats returns stats for GoLB
+func (g *GoLB) GetStats() *Stats {
+	return g.Stats
+}
+
 // HandleHTTP implements middleware for http requests
 func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	serv, err := g.SelectServer()
