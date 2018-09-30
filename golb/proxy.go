@@ -43,6 +43,7 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) (*HTTPProxyRespon
 	if err != nil {
 		return nil, httpRequestError{err: err, req: r}
 	}
+	defer resp.Body.Close()
 
 	fmt.Println(resp)
 	return nil, nil
