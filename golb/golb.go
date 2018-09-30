@@ -30,6 +30,7 @@ type GoLB struct {
 	Connections         uint32
 	ProxyHeaders        map[string]string
 	FailedRequestsLimit uint32
+	Stats               *Stats
 }
 
 // Build provides building of the GoLB
@@ -56,6 +57,7 @@ func (g *GoLB) Build() error {
 	if len(g.ProxyHeaders) == 0 {
 		g.ProxyHeaders = map[string]string{}
 	}
+	g.Stats = &Stats{StatusCodes: map[uint32]uint32{}}
 	return nil
 }
 
