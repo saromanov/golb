@@ -67,11 +67,13 @@ func (g *GoLB) AddServer(s *server.Server) error {
 		return fmt.Errorf("unable to add server")
 	}
 	g.Servers = append(g.Servers, s)
+	g.Stats.Servers++
 	return nil
 }
 
 // SelectServer return server by the index
 func (g *GoLB) SelectServer() (*server.Server, error) {
+	g.Stats.Requests++
 	if len(g.Servers) == 0 {
 		return nil, errNoServers
 	}
@@ -82,6 +84,7 @@ func (g *GoLB) SelectServer() (*server.Server, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to apply balancing: %v", err)
 	}
+	g.Stats.CompleteRequests++
 	return serv, nil
 }
 
