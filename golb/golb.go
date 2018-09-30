@@ -42,6 +42,8 @@ func (g *GoLB) Build() error {
 		g.balance = &balancer.RoundRobin{Servers: g.Servers}
 	case "lc":
 		g.balance = &balancer.LeastConnect{Servers: g.Servers}
+	case "wrr":
+		g.balance = &balancer.WeightedRoundRobin{Servers: g.Servers}
 	default:
 		return errUnknownBalanceType
 	}

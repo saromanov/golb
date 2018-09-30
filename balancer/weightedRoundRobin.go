@@ -18,6 +18,7 @@ func (rr *WeightedRoundRobin) Do() (*server.Server, error) {
 	return rr.getServer(), nil
 }
 
+// http://kb.linuxvirtualserver.org/wiki/Weighted_Round-Robin_Scheduling
 func (rr *WeightedRoundRobin) getServer() *server.Server {
 	i := 0
 	var cw int32
