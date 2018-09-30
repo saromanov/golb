@@ -17,6 +17,7 @@ type HTTPProxy struct {
 
 // HTTPProxyResponse returns data from response
 type HTTPProxyResponse struct {
+	statusCode int
 }
 
 // Do provides executing of the proxy
@@ -43,8 +44,12 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) (*HTTPProxyRespon
 	if err != nil {
 		return nil, httpRequestError{err: err, req: r}
 	}
+
+	response := &HTTPProxyResponse{
+		statusCode: resp.StatusCode,
+	}
 	defer resp.Body.Close()
 
 	fmt.Println(resp)
-	return nil, nil
+	return response, nil
 }
