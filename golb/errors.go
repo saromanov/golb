@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// urlParseError retruns error in the case
+// of url parsing
 type urlParseError struct {
 	err error
 }
