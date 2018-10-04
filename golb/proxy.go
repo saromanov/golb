@@ -20,6 +20,7 @@ type HTTPProxy struct {
 type HTTPProxyResponse struct {
 	statusCode int
 	duration   time.Duration
+	request    string
 }
 
 // Do provides executing of the proxy
@@ -51,6 +52,7 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) (*HTTPProxyRespon
 	response := &HTTPProxyResponse{
 		statusCode: resp.StatusCode,
 		duration:   time.Since(startTime),
+		request:    u.Path,
 	}
 	defer resp.Body.Close()
 	return response, nil
