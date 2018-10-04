@@ -49,7 +49,5 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) (*HTTPProxyRespon
 		statusCode: resp.StatusCode,
 	}
 	defer resp.Body.Close()
-
-	fmt.Println(resp)
 	return response, nil
 }
