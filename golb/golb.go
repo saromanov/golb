@@ -31,6 +31,7 @@ type GoLB struct {
 	ProxyHeaders        map[string]string
 	FailedRequestsLimit uint32
 	Stats               *Stats
+	ServerScheme        string
 }
 
 // Build provides building of the GoLB

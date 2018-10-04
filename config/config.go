@@ -21,6 +21,7 @@ type Config struct {
 	ProxyHeaders        map[string]string `json:"proxy_headers"`
 	Servers             []Server          `json:"servers"`
 	FailedRequestsLimit uint32            `json:"failed_requests_limit"`
+	ServerScheme        string            `json:"server_scheme"`
 }
 
 // Server defines config for the server
@@ -54,6 +55,7 @@ func MakeGoLBObject(conf *Config) golb.GoLB {
 		Port:                conf.Port,
 		Scheme:              conf.Scheme,
 		FailedRequestsLimit: conf.FailedRequestsLimit,
+		ServerScheme:        conf.ServerScheme,
 	}
 
 	servers := []*server.Server{}
