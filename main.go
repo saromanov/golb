@@ -19,7 +19,7 @@ func makeHTTPServer() {
 }
 
 func makeHTTPSServer(cfg *config.Config) {
-	err := http.ListenAndServeTLS(defaultAddress, "server.crt", "server.key", nil)
+	err := http.ListenAndServeTLS(defaultAddress, cfg.CertFilePath, cfg.KeyFilePath, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

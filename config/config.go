@@ -22,6 +22,8 @@ type Config struct {
 	Servers             []Server          `json:"servers"`
 	FailedRequestsLimit uint32            `json:"failed_requests_limit"`
 	ServerScheme        string            `json:"server_scheme"`
+	CertFilePath        string            `json:"cert_file_path"`
+	KeyFilePath         string            `json:"key_file_path"`
 }
 
 // Server defines config for the server
@@ -56,6 +58,8 @@ func MakeGoLBObject(conf *Config) golb.GoLB {
 		Scheme:              conf.Scheme,
 		FailedRequestsLimit: conf.FailedRequestsLimit,
 		ServerScheme:        conf.ServerScheme,
+		CertFilePath:        conf.CertFilePath,
+		KeyFilePath:         conf.KeyFilePath,
 	}
 
 	servers := []*server.Server{}

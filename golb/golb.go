@@ -32,6 +32,8 @@ type GoLB struct {
 	FailedRequestsLimit uint32
 	Stats               *Stats
 	ServerScheme        string
+	KeyFilePath         string
+	CertFilePath        string
 }
 
 // Build provides building of the GoLB
