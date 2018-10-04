@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/saromanov/golb/server"
 )
@@ -18,6 +19,7 @@ type HTTPProxy struct {
 // HTTPProxyResponse returns data from response
 type HTTPProxyResponse struct {
 	statusCode int
+	duration   time.Duration
 }
 
 // Do provides executing of the proxy
@@ -37,6 +39,7 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) (*HTTPProxyRespon
 			r.Header.Set(key, value)
 		}
 	}
+	startTime := time.Now()
 	r.Host = p.serv.Host
 	r.URL = u
 	r.RequestURI = ""
@@ -47,6 +50,7 @@ func (p *HTTPProxy) Do(w http.ResponseWriter, r *http.Request) (*HTTPProxyRespon
 
 	response := &HTTPProxyResponse{
 		statusCode: resp.StatusCode,
+		duration:   time.Since(startTime),
 	}
 	defer resp.Body.Close()
 	return response, nil
