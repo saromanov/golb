@@ -52,7 +52,7 @@ func (sm *simpleMetrics) RequestsGauge() Gauge {
 
 type observeFunc func(name string, lvs LabelValues, value float64)
 
-// Counter is an Influx counter. Observations are forwarded to an Influx
+// SimpleCounter is an Influx counter. Observations are forwarded to an Influx
 // object, and aggregated (summed) per timeseries.
 type SimpleCounter struct {
 	name string
@@ -74,7 +74,7 @@ func (c *SimpleCounter) Add(delta float64) {
 	c.obs(c.name, c.lvs, delta)
 }
 
-// Histogram is an Influx histrogram. Observations are aggregated into a
+// SimpleHistogram is an Influx histrogram. Observations are aggregated into a
 // generic.Histogram and emitted as per-quantile gauges to the Influx server.
 type SimpleHistogram struct {
 	name string
