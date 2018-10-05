@@ -17,7 +17,7 @@ const (
 // RegisterInfluxDB registers the metrics pusher if this didn't happen yet and creates a InfluxDB Registry instance.
 func RegisterInfluxDB(conf *InfluxConfig) Metrics {
 	if influxDBClient == nil {
-		influxDBClient = initInfluxDB()
+		influxDBClient = initInfluxDB(conf)
 	}
 
 	return &simpleMetrics{
