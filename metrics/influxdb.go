@@ -21,9 +21,15 @@ func RegisterInfluxDB() Metrics {
 	}
 
 	return &simpleMetrics{
-		requestsCounter:           &SimpleCounter{},
-		requestsDurationHistogram: &SimpleHistogram{},
-		requestsGauge:             &SimpleGauge{},
+		requestsCounter: &SimpleCounter{
+			name: influxDBMetricsRequestsTotal,
+		},
+		requestsDurationHistogram: &SimpleHistogram{
+			name: influxDBMetricsRequestsHistogram,
+		},
+		requestsGauge: &SimpleGauge{
+			name: influxDBMetricsRequestsGauge,
+		},
 	}
 }
 
