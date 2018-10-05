@@ -46,3 +46,12 @@ func initInfluxDB() influxdb.Client {
 
 	return c
 }
+
+// Write provides writing to influx
+func Write(precision string) error {
+	_, err := influxDBClient.NewBatchPoints(client.BatchPointsConfig{
+		Database:  MyDB,
+		Precision: precision,
+	})
+	return err
+}
