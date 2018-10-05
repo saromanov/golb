@@ -37,3 +37,15 @@ type simpleMetrics struct {
 	requestsDurationHistogram Histogram
 	requestsGauge             Gauge
 }
+
+func (sm *simpleMetrics) RequestsCounter() Counter {
+	return sm.requestsCounter
+}
+
+func (sm *simpleMetrics) RequestsDurationHistogram() Histogram {
+	return sm.requestsDurationHistogram
+}
+
+func (sm *simpleMetrics) RequestsGauge() Gauge {
+	return sm.requestsGauge
+}

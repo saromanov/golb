@@ -1,11 +1,18 @@
 package metrics
 
 import (
-	"github.com/go-kit/kit/metrics/influx"
+	"fmt"
+
 	influxdb "github.com/influxdata/influxdb/client/v2"
 )
 
-var influxDBClient *influx.Influx
+var influxDBClient influxdb.Client
+
+const (
+	influxDBMetricsRequestsTotal     = "golb.requests.total"
+	influxDBMetricsRequestsHistogram = "golb.requests.histogram"
+	influxDBMetricsRequestsGauge     = "golb.requests.gauge"
+)
 
 // RegisterInfluxDB registers the metrics pusher if this didn't happen yet and creates a InfluxDB Registry instance.
 func RegisterInfluxDB() Metrics {
@@ -14,22 +21,22 @@ func RegisterInfluxDB() Metrics {
 	}
 
 	return &simpleMetrics{
-		requestsCounter:             influxDBClient.NewCounter(influxDBMetricsBackendReqsName),
-		requestsDurationHistogram:    influxDBClient.NewHistogram(influxDBMetricsBackendLatencyName),
-		requestsGauge:          influxDBClient.NewGauge(influxDBRetriesTotalName),
+		requestsCounter:           influxDBClient.NewCounter(influxDBMetricsRequestsTotal),
+		requestsDurationHistogram: influxDBClient.NewHistogram(influxDBMetricsRequestsHistogram),
+		requestsGauge:             influxDBClient.NewGauge(influxDBMetricsRequestsGauge),
 	}
 }
 
 // initInflux provides initialization of influx db
-func initInfluxDB() *influx.Influx{
-	return influx.New(
-		map[string]string{},
-		influxdb.BatchPointsConfig{
-			Database:        config.Database,
-			RetentionPolicy: config.RetentionPolicy,
-		},
-		kitlog.LoggerFunc(func(keyvals ...interface{}) error {
-			log.Info(keyvals)
-			return nil
-		}))
+func initInfluxDB() influxdb.Client {
+	c, err := influxdb.NewHTTPClient(influxdb.HTTPConfig{
+		Addr:     "http://localhost:8086",
+		Username: "inflixdb",
+		Password: "influxdb",
+	})
+	if err != nil {
+		panic(fmt.Sprintf("unable to init influx db: %v", err))
+	}
+
+	return c
 }
