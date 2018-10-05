@@ -10,13 +10,13 @@ var influxDBClient *influx.Influx
 // RegisterInfluxDB registers the metrics pusher if this didn't happen yet and creates a InfluxDB Registry instance.
 func RegisterInfluxDB() Metrics {
 	if influxDBClient == nil {
-		influxDBClient = initInfluxDBClient()
+		influxDBClient = initInfluxDB()
 	}
 
 	return &simpleMetrics{
-		backendReqsCounter:             influxDBClient.NewCounter(influxDBMetricsBackendReqsName),
-		backendReqDurationHistogram:    influxDBClient.NewHistogram(influxDBMetricsBackendLatencyName),
-		backendRetriesCounter:          influxDBClient.NewCounter(influxDBRetriesTotalName),
+		requestsCounter:             influxDBClient.NewCounter(influxDBMetricsBackendReqsName),
+		requestsDurationHistogram:    influxDBClient.NewHistogram(influxDBMetricsBackendLatencyName),
+		requestsGauge:          influxDBClient.NewGauge(influxDBRetriesTotalName),
 	}
 }
 

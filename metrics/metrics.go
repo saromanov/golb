@@ -33,7 +33,7 @@ type Histogram interface {
 
 // simpleMetrics implements metrics for golb
 type simpleMetrics struct {
-	requestsCounter           Couner
+	requestsCounter           Counter
 	requestsDurationHistogram Histogram
 	requestsGauge             Gauge
 }
