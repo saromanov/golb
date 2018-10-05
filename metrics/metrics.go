@@ -49,3 +49,27 @@ func (sm *simpleMetrics) RequestsDurationHistogram() Histogram {
 func (sm *simpleMetrics) RequestsGauge() Gauge {
 	return sm.requestsGauge
 }
+
+type observeFunc func(name string, lvs LabelValues, value float64)
+
+// Counter is an Influx counter. Observations are forwarded to an Influx
+// object, and aggregated (summed) per timeseries.
+type SimpleCounter struct {
+	name string
+	lvs  LabelValues
+	obs  observeFunc
+}
+
+// With implements metrics.Counter.
+func (c *SimpleCounter) With(labelValues ...string) Counter {
+	return &SimpleCounter{
+		name: c.name,
+		lvs:  c.lvs.With(labelValues...),
+		obs:  c.obs,
+	}
+}
+
+// Add implements metrics.Counter.
+func (c *SimpleCounter) Add(delta float64) {
+	c.obs(c.name, c.lvs, delta)
+}
