@@ -30,3 +30,10 @@ type Histogram interface {
 	With(labelValues ...string) Histogram
 	Observe(value float64)
 }
+
+// simpleMetrics implements metrics for golb
+type simpleMetrics struct {
+	requestsCounter           Couner
+	requestsDurationHistogram Histogram
+	requestsGauge             Gauge
+}
