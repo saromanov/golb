@@ -21,9 +21,9 @@ func RegisterInfluxDB() Metrics {
 	}
 
 	return &simpleMetrics{
-		requestsCounter:           influxDBClient.NewCounter(influxDBMetricsRequestsTotal),
-		requestsDurationHistogram: influxDBClient.NewHistogram(influxDBMetricsRequestsHistogram),
-		requestsGauge:             influxDBClient.NewGauge(influxDBMetricsRequestsGauge),
+		requestsCounter:           &SimpleCounter{},
+		requestsDurationHistogram: &SimpleHistogram{},
+		requestsGauge:             &SimpleGauge{},
 	}
 }
 

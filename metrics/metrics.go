@@ -73,3 +73,54 @@ func (c *SimpleCounter) With(labelValues ...string) Counter {
 func (c *SimpleCounter) Add(delta float64) {
 	c.obs(c.name, c.lvs, delta)
 }
+
+// Histogram is an Influx histrogram. Observations are aggregated into a
+// generic.Histogram and emitted as per-quantile gauges to the Influx server.
+type SimpleHistogram struct {
+	name string
+	lvs  LabelValues
+	obs  observeFunc
+}
+
+// With implements metrics.Histogram.
+func (h *SimpleHistogram) With(labelValues ...string) Histogram {
+	return &SimpleHistogram{
+		name: h.name,
+		lvs:  h.lvs.With(labelValues...),
+		obs:  h.obs,
+	}
+}
+
+// Observe implements metrics.Histogram.
+func (h *SimpleHistogram) Observe(value float64) {
+	h.obs(h.name, h.lvs, value)
+}
+
+// SimpleGauge is an Influx gauge. Observations are forwarded to a Dogstatsd
+// object, and aggregated (the last observation selected) per timeseries.
+type SimpleGauge struct {
+	name string
+	lvs  LabelValues
+	obs  observeFunc
+	add  observeFunc
+}
+
+// With implements metrics.Gauge.
+func (g *SimpleGauge) With(labelValues ...string) Gauge {
+	return &SimpleGauge{
+		name: g.name,
+		lvs:  g.lvs.With(labelValues...),
+		obs:  g.obs,
+		add:  g.add,
+	}
+}
+
+// Set implements metrics.SimpleGauge.
+func (g *SimpleGauge) Set(value float64) {
+	g.obs(g.name, g.lvs, value)
+}
+
+// Add implements metrics.SimpleGauge.
+func (g *SimpleGauge) Add(delta float64) {
+	g.add(g.name, g.lvs, delta)
+}
