@@ -15,7 +15,7 @@ const (
 )
 
 // RegisterInfluxDB registers the metrics pusher if this didn't happen yet and creates a InfluxDB Registry instance.
-func RegisterInfluxDB() Metrics {
+func RegisterInfluxDB(conf *InfluxConfig) Metrics {
 	if influxDBClient == nil {
 		influxDBClient = initInfluxDB()
 	}
@@ -34,7 +34,7 @@ func RegisterInfluxDB() Metrics {
 }
 
 // initInflux provides initialization of influx db
-func initInfluxDB() influxdb.Client {
+func initInfluxDB(conf *InfluxConfig) influxdb.Client {
 	c, err := influxdb.NewHTTPClient(influxdb.HTTPConfig{
 		Addr:     "http://localhost:8086",
 		Username: "inflixdb",
@@ -53,7 +53,9 @@ func Write(precision string) error {
 		Database:  "influxdb",
 		Precision: precision,
 	})
+	if err != nil {
+		return err
+	}
 
-	influxDBClient.Write(bp)
-	return err
+	return influxDBClient.Write(bp)
 }
