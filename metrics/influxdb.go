@@ -36,7 +36,7 @@ func RegisterInfluxDB(conf *InfluxConfig) Metrics {
 // initInflux provides initialization of influx db
 func initInfluxDB(conf *InfluxConfig) influxdb.Client {
 	c, err := influxdb.NewHTTPClient(influxdb.HTTPConfig{
-		Addr:     "http://localhost:8086",
+		Addr:     conf.GetAddress(),
 		Username: "inflixdb",
 		Password: "influxdb",
 	})
