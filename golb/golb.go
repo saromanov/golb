@@ -8,6 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/saromanov/golb/balancer"
+	"github.com/saromanov/golb/config"
 	"github.com/saromanov/golb/server"
 )
 
@@ -37,8 +38,8 @@ type GoLB struct {
 }
 
 //New returns golb object after reading of config
-func New(conf *Config) golb.GoLB {
-	g := golb.GoLB{
+func New(conf *config.Config) *GoLB {
+	g := &GoLB{
 		MaxConnections:      conf.MaxConnections,
 		Balancer:            conf.Balancer,
 		Protocol:            conf.Protocol,
