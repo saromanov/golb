@@ -36,6 +36,32 @@ type GoLB struct {
 	CertFilePath        string
 }
 
+//New returns golb object after reading of config
+func New(conf *Config) golb.GoLB {
+	g := golb.GoLB{
+		MaxConnections:      conf.MaxConnections,
+		Balancer:            conf.Balancer,
+		Protocol:            conf.Protocol,
+		Port:                conf.Port,
+		Scheme:              conf.Scheme,
+		FailedRequestsLimit: conf.FailedRequestsLimit,
+		ServerScheme:        conf.ServerScheme,
+		CertFilePath:        conf.CertFilePath,
+		KeyFilePath:         conf.KeyFilePath,
+	}
+
+	servers := []*server.Server{}
+	for _, s := range conf.Servers {
+		servers = append(servers, &server.Server{
+			Host: s.Host,
+			Port: s.Port,
+		})
+	}
+
+	g.Servers = servers
+	return g
+}
+
 // Build provides building of the GoLB
 func (g *GoLB) Build() error {
 	if g.balance == nil {

@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/saromanov/golb/config"
+	"github.com/saromanov/golb/golb"
 )
 
 const defaultAddress = "127.0.0.1:8099"
@@ -30,7 +31,7 @@ func main() {
 		panic(fmt.Sprintf("unable to read config: %v", err))
 	}
 
-	g := config.MakeGoLBObject(cfg)
+	g := golb.New(cfg)
 	g.Build()
 	http.HandleFunc("/", g.HandleHTTP)
 	if cfg.ServerScheme == "https" {

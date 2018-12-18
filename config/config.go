@@ -4,9 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-
-	"github.com/saromanov/golb/golb"
-	"github.com/saromanov/golb/server"
 )
 
 // Config provides definition of the config
@@ -46,30 +43,4 @@ func ReadConfig(path string) (*Config, error) {
 		return nil, fmt.Errorf("unable to read config: %v", err)
 	}
 	return conf, nil
-}
-
-//MakeGoLBObject returns golb object after reading of config
-func MakeGoLBObject(conf *Config) golb.GoLB {
-	g := golb.GoLB{
-		MaxConnections:      conf.MaxConnections,
-		Balancer:            conf.Balancer,
-		Protocol:            conf.Protocol,
-		Port:                conf.Port,
-		Scheme:              conf.Scheme,
-		FailedRequestsLimit: conf.FailedRequestsLimit,
-		ServerScheme:        conf.ServerScheme,
-		CertFilePath:        conf.CertFilePath,
-		KeyFilePath:         conf.KeyFilePath,
-	}
-
-	servers := []*server.Server{}
-	for _, s := range conf.Servers {
-		servers = append(servers, &server.Server{
-			Host: s.Host,
-			Port: s.Port,
-		})
-	}
-
-	g.Servers = servers
-	return g
 }
