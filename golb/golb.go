@@ -16,6 +16,7 @@ var (
 	errNoServers          = errors.New("server is not defined")
 	errUnknownBalanceType = errors.New("unknown balance type")
 	errNoBalancer         = errors.New("balancer is not defined")
+	errServerNotFound     = errors.New("server not found")
 )
 
 type GoLB struct {
@@ -99,6 +100,17 @@ func (g *GoLB) AddServer(s *server.Server) error {
 	g.Servers = append(g.Servers, s)
 	g.Stats.Servers++
 	return nil
+}
+
+// RemoveServer provides removing of server from list
+func (g *GoLB) RemoveServer(ID string) error {
+	for i, x := range g.Servers {
+		if x.ID == ID {
+			g.Servers = append(g.Servers[:i], g.Servers[i+1:]...)
+			return nil
+		}
+	}
+	return errServerNotFound
 }
 
 // SelectServer return server by the index
