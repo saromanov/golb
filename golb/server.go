@@ -2,6 +2,7 @@
 // from load balancer
 package golb
 
+import "net/http"
 // Server provides definition for stat server
 type Server struct {
 
