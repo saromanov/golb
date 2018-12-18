@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
@@ -36,6 +37,7 @@ type GoLB struct {
 	ServerScheme        string
 	KeyFilePath         string
 	CertFilePath        string
+	mu                  *sync.RWMutex
 }
 
 //New returns golb object after reading of config
@@ -50,6 +52,7 @@ func New(conf *config.Config) *GoLB {
 		ServerScheme:        conf.ServerScheme,
 		CertFilePath:        conf.CertFilePath,
 		KeyFilePath:         conf.KeyFilePath,
+		mu:                  &sync.RWMutex{},
 	}
 
 	servers := []*server.Server{}
@@ -162,6 +165,8 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (g *GoLB) updateStats(s *server.Server, r *HTTPProxyResponse) {
+	g.mu.RLock()
+	defer g.mu.RUnlock()
 	g.Stats.StatusCodes[r.statusCode]++
 	s.IncSuccessRequests()
 }
