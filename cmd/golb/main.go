@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	// ConfigConsulKey defines key for load config from Consul
+	// ConfigСonsulKey defines key for load config from Consul
 	ConfigСonsulKey string
 	// ConfigPath defines path to load config
 	ConfigPath string
@@ -39,6 +39,18 @@ var configConsulCmd = &cobra.Command{
 	},
 }
 
+var configPathCmd = &cobra.Command{
+	Use:   "config-path",
+	Short: "Load config from path",
+	Long:  "Load config from path",
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			log.Fatal("key is not defined")
+		}
+		ConfigPath = args[0]
+	},
+}
+
 const defaultAddress = "127.0.0.1:8099"
 
 func makeHTTPServer() {
@@ -61,6 +73,7 @@ func main() {
 		os.Exit(1)
 	}
 	rootCmd.AddCommand(configConsulCmd)
+	rootCmd.AddCommand(configPathCmd)
 	cfg, err := config.ReadConfig("./configs/config.json")
 	if err != nil {
 		panic(fmt.Sprintf("unable to read config: %v", err))
