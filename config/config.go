@@ -44,3 +44,12 @@ func ReadConfig(path string) (*Config, error) {
 	}
 	return conf, nil
 }
+
+// MakeDefaultConfig provides loading of default conig
+func MakeDefaultConfig() *Config {
+	return &Config{
+		MaxConnections:    10,
+		ClientTimeout:     "5s",
+		ConnectionTimeout: "5s",
+	}
+}

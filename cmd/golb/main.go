@@ -92,6 +92,9 @@ func main() {
 			panic(fmt.Sprintf("unable to read config: %v", err))
 		}
 	}
+	if cfg == nil {
+		cfg = config.MakeDefaultConfig()
+	}
 
 	g := golb.New(cfg)
 	g.Build()
