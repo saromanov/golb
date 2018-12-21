@@ -12,7 +12,10 @@ import (
 )
 
 var (
-	consulKey string
+	// ConfigConsulKey defines key for load config from Consul
+	ConfigСonsulKey string
+	// ConfigPath defines path to load config
+	ConfigPath string
 )
 
 var rootCmd = &cobra.Command{
