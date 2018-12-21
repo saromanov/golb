@@ -74,9 +74,23 @@ func main() {
 	}
 	rootCmd.AddCommand(configConsulCmd)
 	rootCmd.AddCommand(configPathCmd)
-	cfg, err := config.ReadConfig("./configs/config.json")
-	if err != nil {
-		panic(fmt.Sprintf("unable to read config: %v", err))
+
+	var (
+		cfg *config.Config
+		err error
+	)
+
+	if ConfigPath != "" {
+		cfg, err = config.ReadConfig(ConfigPath)
+		if err != nil {
+			panic(fmt.Sprintf("unable to read config: %v", err))
+		}
+	}
+	if ConfigСonsulKey != "" {
+		cfg, err = config.ReadConsulConfig(ConfigСonsulKey)
+		if err != nil {
+			panic(fmt.Sprintf("unable to read config: %v", err))
+		}
 	}
 
 	g := golb.New(cfg)
