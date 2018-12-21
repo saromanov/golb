@@ -4,10 +4,21 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/saromanov/golb/config"
 	"github.com/saromanov/golb/golb"
+	"github.com/spf13/cobra"
 )
+
+var rootCmd = &cobra.Command{
+	Use:   "golb",
+	Short: "GoLB is a load balancer",
+	Long:  `Implementation of the simple load balancer`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+	},
+}
 
 const defaultAddress = "127.0.0.1:8099"
 
@@ -26,6 +37,10 @@ func makeHTTPSServer(cfg *config.Config) {
 	}
 }
 func main() {
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	cfg, err := config.ReadConfig("./configs/config.json")
 	if err != nil {
 		panic(fmt.Sprintf("unable to read config: %v", err))
