@@ -11,12 +11,28 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	consulKey string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "golb",
 	Short: "GoLB is a load balancer",
 	Long:  `Implementation of the simple load balancer`,
 	Run: func(cmd *cobra.Command, args []string) {
 
+	},
+}
+
+var configConsulCmd = &cobra.Command{
+	Use:   "config-consul",
+	Short: "Load config from Consul by the key",
+	Long:  "Load config from Consul by the key",
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			log.Fatal("key is not defined")
+		}
+		consulKey = args[0]
 	},
 }
 
@@ -37,6 +53,7 @@ func makeHTTPSServer(cfg *config.Config) {
 	}
 }
 func main() {
+	rootCmd.AddCommand(configConsulCmd)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
