@@ -35,7 +35,7 @@ var configConsulCmd = &cobra.Command{
 		if len(args) == 0 {
 			log.Fatal("key is not defined")
 		}
-		consulKey = args[0]
+		ConfigСonsulKey = args[0]
 	},
 }
 
@@ -56,11 +56,11 @@ func makeHTTPSServer(cfg *config.Config) {
 	}
 }
 func main() {
-	rootCmd.AddCommand(configConsulCmd)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	rootCmd.AddCommand(configConsulCmd)
 	cfg, err := config.ReadConfig("./configs/config.json")
 	if err != nil {
 		panic(fmt.Sprintf("unable to read config: %v", err))
