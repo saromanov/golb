@@ -16,14 +16,6 @@ const defaultAddress = "127.0.0.1:8099"
 type Server struct {
 }
 
-func createTLSServer(crt, key string) error {
-	err := http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
-	return nil
-}
-
 func makeHTTPServer() {
 	fmt.Println("Starting of the server...")
 	err := http.ListenAndServe(defaultAddress, nil)
@@ -33,6 +25,7 @@ func makeHTTPServer() {
 }
 
 func makeHTTPSServer(cfg *config.Config) {
+	fmt.Println("Starting of the server")
 	err := http.ListenAndServeTLS(defaultAddress, cfg.CertFilePath, cfg.KeyFilePath, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

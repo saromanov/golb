@@ -38,6 +38,7 @@ type GoLB struct {
 	KeyFilePath         string
 	CertFilePath        string
 	mu                  *sync.RWMutex
+	conf                *config.Config
 }
 
 //New returns golb object after reading of config
@@ -53,6 +54,7 @@ func New(conf *config.Config) *GoLB {
 		CertFilePath:        conf.CertFilePath,
 		KeyFilePath:         conf.KeyFilePath,
 		mu:                  &sync.RWMutex{},
+		conf:                conf,
 	}
 
 	servers := []*server.Server{}
@@ -92,7 +94,7 @@ func (g *GoLB) Build() error {
 		g.ProxyHeaders = map[string]string{}
 	}
 
-	if cfg.ServerScheme == "https" {
+	if g.Scheme == "https" {
 		makeHTTPSServer(cfg)
 	}
 	makeHTTPServer()
