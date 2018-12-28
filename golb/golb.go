@@ -14,10 +14,10 @@ import (
 )
 
 var (
-	errNoServers          = errors.New("server is not defined")
-	errUnknownBalanceType = errors.New("unknown balance type")
-	errNoBalancer         = errors.New("balancer is not defined")
-	errServerNotFound     = errors.New("server not found")
+	errNoServers           = errors.New("server is not defined")
+	errUnknownBalancerType = errors.New("unknown balancer type")
+	errNoBalancer          = errors.New("balancer is not defined")
+	errServerNotFound      = errors.New("server not found")
 )
 
 type GoLB struct {
@@ -82,7 +82,7 @@ func (g *GoLB) Build() error {
 	case "wrr":
 		g.balance = &balancer.WeightedRoundRobin{Servers: g.Servers}
 	default:
-		return errUnknownBalanceType
+		return errUnknownBalancerType
 	}
 	if g.Scheme == "" {
 		g.Scheme = "http"
@@ -152,7 +152,7 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	case errNoServers:
 		log.Printf(err.Error())
 		return
-	case errUnknownBalanceType:
+	case errUnknownBalancerType:
 		log.Printf(err.Error())
 		return
 	default:
