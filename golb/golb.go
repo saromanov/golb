@@ -91,6 +91,11 @@ func (g *GoLB) Build() error {
 	if len(g.ProxyHeaders) == 0 {
 		g.ProxyHeaders = map[string]string{}
 	}
+
+	if cfg.ServerScheme == "https" {
+		makeHTTPSServer(cfg)
+	}
+	makeHTTPServer()
 	g.Stats = &Stats{StatusCodes: map[int]uint32{}}
 	return nil
 }

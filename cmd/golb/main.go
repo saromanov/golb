@@ -51,22 +51,6 @@ var configPathCmd = &cobra.Command{
 	},
 }
 
-const defaultAddress = "127.0.0.1:8099"
-
-func makeHTTPServer() {
-	fmt.Println("Starting of the server...")
-	err := http.ListenAndServe(defaultAddress, nil)
-	if err != nil {
-		panic(fmt.Sprintf("%v", err))
-	}
-}
-
-func makeHTTPSServer(cfg *config.Config) {
-	err := http.ListenAndServeTLS(defaultAddress, cfg.CertFilePath, cfg.KeyFilePath, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
-}
 func main() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -99,8 +83,4 @@ func main() {
 	g := golb.New(cfg)
 	g.Build()
 	http.HandleFunc("/", g.HandleHTTP)
-	if cfg.ServerScheme == "https" {
-		makeHTTPSServer(cfg)
-	}
-	makeHTTPServer()
 }
