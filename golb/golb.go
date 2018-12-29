@@ -12,6 +12,8 @@ import (
 	"github.com/saromanov/golb/config"
 	"github.com/saromanov/golb/server"
 	"github.com/saromanov/golb/discovery"
+	"github.com/saromanov/golb/discovery/docker"
+	"github.com/saromanov/golb/discovery/json"
 )
 
 var (
@@ -57,6 +59,15 @@ func New(conf *config.Config) *GoLB {
 		KeyFilePath:         conf.KeyFilePath,
 		mu:                  &sync.RWMutex{},
 		conf:                conf,
+	}
+
+	switch conf.Discovery {
+	case "docker":
+		d, _ := docker.New()
+		g.disc = d
+	default:
+		d, _ := json.New(conf)
+		g.disc = d
 	}
 
 	servers := []*server.Server{}

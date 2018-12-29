@@ -21,6 +21,7 @@ type Config struct {
 	ServerScheme        string            `json:"server_scheme"`
 	CertFilePath        string            `json:"cert_file_path"`
 	KeyFilePath         string            `json:"key_file_path"`
+	Discovery           string            `json:"discovery"`
 }
 
 // Server defines config for the server
