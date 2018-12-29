@@ -95,7 +95,7 @@ func (g *GoLB) Build() error {
 	}
 
 	if g.Scheme == "https" {
-		makeHTTPSServer(cfg)
+		makeHTTPSServer(g.conf)
 	}
 	makeHTTPServer()
 	g.Stats = &Stats{StatusCodes: map[int]uint32{}}
