@@ -6,38 +6,34 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var logger *logrus.Entry
-
-// Init provides initialization of the logger
-func Init() {
-	logger = logrus.StandardLogger().WithFields(logrus.Fields{})
+func init() {
+	logrus.SetLevel(logrus.InfoLevel)
 	logrus.SetOutput(os.Stdout)
 }
-
 func Panic(args ...interface{}) {
-	logger.Panic(args...)
+	logrus.Panic(args...)
 }
 
 func Info(args ...interface{}) {
-	logger.Info(args...)
+	logrus.Info(args...)
 }
 
 func Fatal(args ...interface{}) {
-	logger.Fatal(args...)
+	logrus.Fatal(args...)
 }
 
 func Print(args ...interface{}) {
-	logger.Print(args...)
+	logrus.Print(args...)
 }
 
 func Warn(args ...interface{}) {
-	logger.Warn(args...)
+	logrus.Warn(args...)
 }
 
 func Warning(args ...interface{}) {
-	logger.Warning(args...)
+	logrus.Warning(args...)
 }
 
 func Error(args ...interface{}) {
-	logger.Error(args...)
+	logrus.Error(args...)
 }
