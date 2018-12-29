@@ -15,13 +15,13 @@ type Discovery struct {
 }
 
 // New provides getting of server definition from config file
-func New(c *config.Config) (*Discovery, error) {
+func New(c *config.Config) (Discovery, error) {
 	if c == nil {
-		return nil, errEmptyConfig
+		return Discovery{}, errEmptyConfig
 	}
 
 	srvs := getServers(c)
-	return &Discovery{
+	return Discovery{
 		servers: srvs,
 	}, nil
 

@@ -75,8 +75,6 @@ func New(conf *config.Config) *GoLB {
 		}
 		g.disc = d
 	}
-
-	g.Servers = servers
 	return g
 }
 

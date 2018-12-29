@@ -17,13 +17,13 @@ type Discovery struct {
 }
 
 // New provides initialization of docker and Discovery
-func New() (*Discovery, error) {
+func New() (Discovery, error) {
 	client, err := docker.NewClient(defaultEndpoint)
 	if err != nil {
-		return nil, err
+		return Discovery{}, err
 	}
 
-	return &Discovery{
+	return Discovery{
 		client: client,
 	}, nil
 }
