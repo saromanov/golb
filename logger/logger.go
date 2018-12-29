@@ -10,6 +10,24 @@ func init() {
 	logrus.SetLevel(logrus.InfoLevel)
 	logrus.SetOutput(os.Stdout)
 }
+
+// Configuration provides config of logrus output
+func Configuration(out string, l string) {
+
+	switch out {
+	case "stderr":
+		logrus.SetOutput(os.Stderr)
+	case "stdout":
+		logrus.SetOutput(os.Stdout)
+	default:
+		f, err := os.OpenFile(out, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0755)
+		if err != nil {
+			logrus.Fatal(err)
+		}
+		logrus.SetOutput(f)
+	}
+}
+
 func Panic(args ...interface{}) {
 	logrus.Panic(args...)
 }
