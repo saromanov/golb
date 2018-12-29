@@ -10,10 +10,10 @@ import (
 	"github.com/pkg/errors"
 	"github.com/saromanov/golb/balancer"
 	"github.com/saromanov/golb/config"
-	"github.com/saromanov/golb/server"
 	"github.com/saromanov/golb/discovery"
 	"github.com/saromanov/golb/discovery/docker"
 	"github.com/saromanov/golb/discovery/json"
+	"github.com/saromanov/golb/server"
 )
 
 var (
@@ -42,7 +42,7 @@ type GoLB struct {
 	CertFilePath        string
 	mu                  *sync.RWMutex
 	conf                *config.Config
-	disc *discovery.Discovery
+	disc                *discovery.Discovery
 }
 
 //New returns golb object after reading of config
@@ -63,19 +63,17 @@ func New(conf *config.Config) *GoLB {
 
 	switch conf.Discovery {
 	case "docker":
-		d, _ := docker.New()
+		d, err := docker.New()
+		if err != nil {
+			log.Fatalf("unable to discover servers: %v", err)
+		}
 		g.disc = d
 	default:
-		d, _ := json.New(conf)
+		d, err := json.New(conf)
+		if err != nil {
+			log.Fatalf("unable to discover servers: %v", err)
+		}
 		g.disc = d
-	}
-
-	servers := []*server.Server{}
-	for _, s := range conf.Servers {
-		servers = append(servers, &server.Server{
-			Host: s.Host,
-			Port: s.Port,
-		})
 	}
 
 	g.Servers = servers
