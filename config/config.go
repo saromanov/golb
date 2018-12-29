@@ -52,5 +52,6 @@ func MakeDefaultConfig() *Config {
 		MaxConnections:    10,
 		ClientTimeout:     "5s",
 		ConnectionTimeout: "5s",
+		Balancer:          "rr",
 	}
 }

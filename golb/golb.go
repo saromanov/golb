@@ -83,7 +83,8 @@ func (g *GoLB) Build() error {
 	if g.balance == nil {
 		g.balance = &balancer.RoundRobin{Servers: g.Servers}
 	}
-	switch g.Balancer {
+	fmt.Println(g.conf)
+	switch g.conf.Balancer {
 	case "rr":
 		g.balance = &balancer.RoundRobin{Servers: g.Servers}
 	case "lc":
