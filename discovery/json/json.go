@@ -38,3 +38,8 @@ func getServers(c *config.Config) []*server.Server {
 	}
 	return result
 }
+
+// GetServers retruns list of servers
+func (d *Discovery) GetServers() []*server.Server {
+	return d.servers
+}

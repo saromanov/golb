@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fsouza/go-dockerclient"
+	"github.com/saromanov/golb/server"
 )
 
 const defaultEndpoint = "unix:///var/run/docker.sock"
@@ -11,7 +12,8 @@ const defaultEndpoint = "unix:///var/run/docker.sock"
 // Discovery provides discoverying of the servers
 // via docker
 type Discovery struct {
-	client *docker.Client
+	client  *docker.Client
+	servers []*server.Server
 }
 
 // New provides initialization of docker and Discovery
@@ -38,4 +40,9 @@ func (d *Discovery) Search() error {
 		fmt.Println(c)
 	}
 	return nil
+}
+
+// GetServers retruns list of servers
+func (d *Discovery) GetServers() []*server.Server {
+	return d.servers
 }
