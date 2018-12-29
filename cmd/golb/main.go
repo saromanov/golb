@@ -81,6 +81,8 @@ func main() {
 	}
 
 	g := golb.New(cfg)
-	g.Build()
+	if err := g.Build(); err != nil {
+		panic(err)
+	}
 	http.HandleFunc("/", g.HandleHTTP)
 }
