@@ -68,12 +68,14 @@ func New(conf *config.Config) *GoLB {
 			log.Fatalf("unable to discover servers: %v", err)
 		}
 		g.disc = d
+		g.Servers = d.GetServers()
 	default:
 		d, err := json.New(conf)
 		if err != nil {
 			log.Fatalf("unable to discover servers: %v", err)
 		}
 		g.disc = d
+		g.Servers = d.GetServers()
 	}
 	return g
 }
@@ -135,8 +137,9 @@ func (g *GoLB) RemoveServer(ID string) error {
 
 // SelectServer return server by the index
 func (g *GoLB) SelectServer() (*server.Server, error) {
+	servers := g.disc.GetServers()
 	g.Stats.Requests++
-	if len(g.Servers) == 0 {
+	if len(servers) == 0 {
 		return nil, errNoServers
 	}
 	if g.balance == nil {
