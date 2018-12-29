@@ -42,7 +42,7 @@ type GoLB struct {
 	CertFilePath        string
 	mu                  *sync.RWMutex
 	conf                *config.Config
-	disc                *discovery.Discovery
+	disc                discovery.Discovery
 }
 
 //New returns golb object after reading of config

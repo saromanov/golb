@@ -27,6 +27,11 @@ func New(c *config.Config) (Discovery, error) {
 
 }
 
+// Search provides searching of servers
+func (d Discovery) Search() error {
+	return nil
+}
+
 // getServers returns servers from config
 func getServers(c *config.Config) []*server.Server {
 	result := make([]*server.Server, len(c.Servers))
@@ -40,6 +45,6 @@ func getServers(c *config.Config) []*server.Server {
 }
 
 // GetServers retruns list of servers
-func (d *Discovery) GetServers() []*server.Server {
+func (d Discovery) GetServers() []*server.Server {
 	return d.servers
 }

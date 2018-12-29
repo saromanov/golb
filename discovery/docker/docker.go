@@ -30,7 +30,7 @@ func New() (Discovery, error) {
 
 // Search provides getting of containers and add their host
 // on backend representation of server
-func (d *Discovery) Search() error {
+func (d Discovery) Search() error {
 	containers, err := d.client.ListContainers(docker.ListContainersOptions{})
 	if err != nil {
 		return err
@@ -43,6 +43,6 @@ func (d *Discovery) Search() error {
 }
 
 // GetServers retruns list of servers
-func (d *Discovery) GetServers() []*server.Server {
+func (d Discovery) GetServers() []*server.Server {
 	return d.servers
 }
