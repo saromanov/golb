@@ -84,11 +84,11 @@ func (g *GoLB) Build() error {
 	default:
 		return errUnknownBalancerType
 	}
-	if g.Scheme == "" {
-		g.Scheme = "http"
+	if g.conf.Scheme == "" {
+		g.conf.Scheme = "http"
 	}
-	if g.Protocol == "" {
-		g.Protocol = "tcp"
+	if g.conf.Protocol == "" {
+		g.conf.Protocol = "tcp"
 	}
 	if len(g.ProxyHeaders) == 0 {
 		g.ProxyHeaders = map[string]string{}
