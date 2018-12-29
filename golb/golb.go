@@ -11,6 +11,7 @@ import (
 	"github.com/saromanov/golb/balancer"
 	"github.com/saromanov/golb/config"
 	"github.com/saromanov/golb/server"
+	"github.com/saromanov/golb/discovery"
 )
 
 var (
@@ -39,6 +40,7 @@ type GoLB struct {
 	CertFilePath        string
 	mu                  *sync.RWMutex
 	conf                *config.Config
+	disc *discovery.Discovery
 }
 
 //New returns golb object after reading of config
