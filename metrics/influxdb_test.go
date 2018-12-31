@@ -5,7 +5,7 @@ import (
 )
 
 func TestRegisterInfluxDB(t *testing.T) {
-	RegisterInfluxDB()
+	RegisterInfluxDB(nil)
 	err := Write("s")
 	if err != nil {
 		t.Errorf(err.Error())
