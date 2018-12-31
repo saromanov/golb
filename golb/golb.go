@@ -23,6 +23,7 @@ var (
 	errServerNotFound      = errors.New("server not found")
 )
 
+// GoLB defines main struct of app
 type GoLB struct {
 	Servers             []*server.Server
 	MaxConnections      uint32
