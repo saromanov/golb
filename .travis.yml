@@ -11,7 +11,7 @@ go:
 
 before_install:
   - docker pull influxdb
-  - docker run -d -p 8086:8086 -v $PWD:/var/lib/influxdb influxdb
+  - docker run -e INFLUXDB_DB=influxdb -d -p 8086:8086 -v $PWD:/var/lib/influxdb influxdb
 script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
   - goveralls -coverprofile=coverage.out -service travis-ci -repotoken N10Aya4dYexJebU4hW6lmBPZChrOzjMpY
