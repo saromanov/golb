@@ -64,7 +64,7 @@ func New(conf *config.Config) *GoLB {
 
 	switch conf.Discovery {
 	case "docker":
-		d, err := docker.New()
+		d, err := docker.New(&discovery.Config{})
 		if err != nil {
 			log.Fatalf("unable to discover servers: %v", err)
 		}
