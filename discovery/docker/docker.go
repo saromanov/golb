@@ -38,7 +38,15 @@ func New(cfg *discovery.Config) (Discovery, error) {
 // Search provides getting of containers and add their host
 // on backend representation of server
 func (d Discovery) Search() error {
-	containers, err := d.client.ListContainers(docker.ListContainersOptions{})
+	var filters map[string][]string
+	if d.cfg.Filters != "" {
+		filters = map[string][]string{
+			"label": []string{d.cfg.Filters},
+		}
+	}
+	containers, err := d.client.ListContainers(docker.ListContainersOptions{
+		Filters: filters,
+	})
 	if err != nil {
 		return err
 	}
