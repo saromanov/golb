@@ -1,8 +1,6 @@
 package docker
 
 import (
-	"fmt"
-
 	"github.com/fsouza/go-dockerclient"
 	"github.com/saromanov/golb/discovery"
 	"github.com/saromanov/golb/server"
@@ -52,7 +50,12 @@ func (d Discovery) Search() error {
 	}
 
 	for _, c := range containers {
-		fmt.Println(c)
+		for _, p := range c.Ports {
+			d.servers = append(d.servers, &server.Server{
+				Host: "",
+				Port: uint32(p.PublicPort),
+			})
+		}
 	}
 	return nil
 }
