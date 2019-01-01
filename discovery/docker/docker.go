@@ -1,6 +1,8 @@
 package docker
 
 import (
+	"regexp"
+
 	"github.com/fsouza/go-dockerclient"
 	"github.com/saromanov/golb/discovery"
 	"github.com/saromanov/golb/server"
@@ -52,7 +54,7 @@ func (d Discovery) Search() error {
 	for _, c := range containers {
 		for _, p := range c.Ports {
 			d.servers = append(d.servers, &server.Server{
-				Host: "",
+				Host: d.getContainerHost(c.ID, p.IP),
 				Port: uint32(p.PublicPort),
 			})
 		}
@@ -63,4 +65,30 @@ func (d Discovery) Search() error {
 // GetServers retruns list of servers
 func (d Discovery) GetServers() []*server.Server {
 	return d.servers
+}
+
+func (d *Discovery) getContainerHost(id, portHost string) string {
+	if portHost != "0.0.0.0" {
+		return portHost
+	}
+	var reg = regexp.MustCompile("(.*?)://(?P<host>[-.A-Za-z0-9]+)/?(.*)")
+	match := reg.FindStringSubmatch(d.cfg.DockerEndpoint)
+
+	if len(match) == 0 {
+		return portHost
+	}
+
+	result := make(map[string]string)
+	for i, name := range reg.SubexpNames() {
+		if name != "" {
+			result[name] = match[i]
+		}
+	}
+
+	h, ok := result["host"]
+	if !ok {
+		return portHost
+	}
+
+	return h
 }
