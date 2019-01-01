@@ -5,6 +5,7 @@ import (
 
 	"github.com/fsouza/go-dockerclient"
 	"github.com/saromanov/golb/server"
+	"github.com/saromanov/golb/discovery"
 )
 
 const defaultEndpoint = "unix:///var/run/docker.sock"
@@ -14,10 +15,11 @@ const defaultEndpoint = "unix:///var/run/docker.sock"
 type Discovery struct {
 	client  *docker.Client
 	servers []*server.Server
+	cfg *dicovery.Config
 }
 
 // New provides initialization of docker and Discovery
-func New() (Discovery, error) {
+func New(cfg *discovery.Config) (Discovery, error) {
 	client, err := docker.NewClient(defaultEndpoint)
 	if err != nil {
 		return Discovery{}, err
@@ -25,6 +27,7 @@ func New() (Discovery, error) {
 
 	return Discovery{
 		client: client,
+		cfg: cfg,
 	}, nil
 }
 
