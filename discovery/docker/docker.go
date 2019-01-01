@@ -20,7 +20,11 @@ type Discovery struct {
 
 // New provides initialization of docker and Discovery
 func New(cfg *discovery.Config) (Discovery, error) {
-	client, err := docker.NewClient(defaultEndpoint)
+	endpoint := defaultEndpoint
+	if cfg.DockerEndpoint != "" {
+		endpoint = cfg.DockerEndpoint
+	}
+	client, err := docker.NewClient(endpoint)
 	if err != nil {
 		return Discovery{}, err
 	}
