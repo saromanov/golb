@@ -7,6 +7,7 @@ import (
 	"github.com/saromanov/golb/server"
 )
 
+// Random defines selection of servers randomly
 type Random struct {
 	*sync.Mutex
 	Connections uint32

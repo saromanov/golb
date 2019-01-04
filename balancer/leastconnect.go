@@ -7,6 +7,7 @@ import (
 	"github.com/saromanov/golb/server"
 )
 
+// LeastConnect returns servers which was last connected
 type LeastConnect struct {
 	*sync.Mutex
 	Connections uint32

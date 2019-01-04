@@ -14,6 +14,7 @@ type WeightedRoundRobin struct {
 	serverNum   uint32
 }
 
+// Do provides executing of selection of servers
 func (rr *WeightedRoundRobin) Do() (*server.Server, error) {
 	return rr.getServer(), nil
 }

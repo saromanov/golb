@@ -6,6 +6,7 @@ import (
 	"github.com/saromanov/golb/server"
 )
 
+// RoundRobin provides implementation of Round Robin algorithm
 type RoundRobin struct {
 	sync.Mutex
 	Connections uint32
@@ -13,6 +14,7 @@ type RoundRobin struct {
 	serverNum   uint32
 }
 
+// Do provides executing of algorithm
 func (rr *RoundRobin) Do() (*server.Server, error) {
 	idx := rr.serverNum
 	rr.updateNum()
