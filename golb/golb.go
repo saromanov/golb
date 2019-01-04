@@ -13,6 +13,7 @@ import (
 	"github.com/saromanov/golb/discovery"
 	"github.com/saromanov/golb/discovery/docker"
 	"github.com/saromanov/golb/discovery/json"
+	"github.com/saromanov/golb/logger"
 	"github.com/saromanov/golb/server"
 )
 
@@ -69,14 +70,18 @@ func New(conf *config.Config) *GoLB {
 			log.Fatalf("unable to discover servers: %v", err)
 		}
 		g.disc = d
-		g.Servers = d.GetServers()
+		servers := d.GetServers()
+		logger.Infof("Docker: discovered %d servers", len(servers))
+		g.Servers = servers
 	default:
 		d, err := json.New(conf)
 		if err != nil {
 			log.Fatalf("unable to discover servers: %v", err)
 		}
 		g.disc = d
-		g.Servers = d.GetServers()
+		servers := d.GetServers()
+		logger.Infof("Docker: discovered %d servers", len(servers))
+		g.Servers = servers
 	}
 	return g
 }

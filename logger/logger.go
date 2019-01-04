@@ -36,6 +36,10 @@ func Info(args ...interface{}) {
 	logrus.Info(args...)
 }
 
+func Infof(format string, args ...interface{}) {
+	logrus.Infof(format, args...)
+}
+
 func Fatal(args ...interface{}) {
 	logrus.Fatal(args...)
 }
