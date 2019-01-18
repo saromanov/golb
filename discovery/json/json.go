@@ -29,6 +29,8 @@ func New(c *config.Config) (Discovery, error) {
 
 // Search provides searching of servers
 func (d Discovery) Search() error {
+	servers := getServers(nil)
+	d.servers = servers
 	return nil
 }
 
