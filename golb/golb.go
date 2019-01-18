@@ -62,6 +62,7 @@ func New(conf *config.Config) *GoLB {
 		mu:                  &sync.RWMutex{},
 		conf:                conf,
 	}
+	conf.Discovery = "docker"
 
 	switch conf.Discovery {
 	case "docker":

@@ -64,6 +64,10 @@ func (d Discovery) Search() error {
 
 // GetServers retruns list of servers
 func (d Discovery) GetServers() []*server.Server {
+	err := d.Search()
+	if err != nil {
+		return nil
+	}
 	return d.servers
 }
 
