@@ -27,7 +27,7 @@ type Config struct {
 // GenID provides generation of ID for server
 func GenID(s *server.Server) string {
 	hasher := md5.New()
-	port := fmt.Sprintf("%s", s.Port)
+	port := fmt.Sprintf("%d", s.Port)
 	hasher.Write([]byte(fmt.Sprintf("%s%s", s.Host, port)))
 	return hex.EncodeToString(hasher.Sum(nil))
 }
