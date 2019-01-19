@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/saromanov/golb/config"
@@ -84,5 +83,5 @@ func main() {
 	if err := g.Build(); err != nil {
 		panic(err)
 	}
-	http.HandleFunc("/", g.HandleHTTP)
+	select {}
 }

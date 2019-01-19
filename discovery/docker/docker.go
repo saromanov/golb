@@ -51,7 +51,6 @@ func (d *Discovery) Search() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(containers)
 	for _, c := range containers {
 		for _, p := range c.Ports {
 			d.servers = append(d.servers, &server.Server{
