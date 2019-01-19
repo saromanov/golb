@@ -5,4 +5,50 @@
 [![Build Status](https://travis-ci.org/saromanov/golb.svg?branch=master)](https://travis-ci.org/saromanov/golb)
 [![Coverage Status](https://coveralls.io/repos/github/saromanov/golb/badge.svg?branch=master)](https://coveralls.io/github/saromanov/golb?branch=master)
 
-Simple Load Balancer
+Load balancer
+
+## Table of Contents
+* [Getting Started](#getting-started)
+    + [Installing](#installing)
+    + [Quick start](#quick-start)
+    + [Metrics] (#metrics)
+    + [Config] (#config)
+
+## Getting Started
+
+### Installing
+
+```sh
+$ go build github.com/saromanov/golb/...
+```
+
+### Quick start
+
+For quick test of the Golb, create one or more docker container with servers. Check "test" dir for create simple python server like
+```sh
+sudo docker build -t test/server .
+sudo docker run test/server -p 7000:7000
+sudo docker run test/server -p 7000:7001
+```
+
+Then, start golb instance
+```sh
+golb
+```
+
+After this, you can send test requests on the 
+```
+curl http://localhost:8080
+```
+
+### Metrics
+
+```sh
+curl http://localhost:8080/v1/metrics
+```
+
+### Config
+
+```sh
+curl http://localhost:8080/v1/config
+```
