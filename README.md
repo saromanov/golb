@@ -11,8 +11,8 @@ Load balancer
 * [Getting Started](#getting-started)
     + [Installing](#installing)
     + [Quick start](#quick-start)
-    + [Metrics] (#metrics)
-    + [Config] (#config)
+    + [Metrics](#metrics)
+    + [Config](#config)
 
 ## Getting Started
 
