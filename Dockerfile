@@ -1,6 +1,6 @@
-FROM golang:latest 
+FROM golang:1.11 
 RUN mkdir /app 
-ADD . /app/ 
+COPY . /app/ 
 WORKDIR /app
 RUN go get ./... 
 RUN go build -o main .

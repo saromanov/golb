@@ -8,11 +8,11 @@
 Load balancer
 
 ## Table of Contents
-* [Getting Started](#getting-started)
-    + [Installing](#installing)
-    + [Quick start](#quick-start)
-    + [Metrics](#metrics)
-    + [Config](#config)
+*  [Getting Started](#getting-started)
+    +  [Installing](#installing)
+    +  [Quick start](#quick-start)
+    +  [Metrics](#metrics)
+    +  [Config](#config)
 
 ## Getting Started
 
@@ -37,7 +37,7 @@ golb
 ```
 
 After this, you can send test requests on the 
-```
+```sh
 curl http://localhost:8080
 ```
 
