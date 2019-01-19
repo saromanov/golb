@@ -24,6 +24,11 @@ type Config struct {
 	Discovery           string            `json:"discovery"`
 }
 
+// Marshal provides servialization of the Config struct
+func (c *Config) Marshal() ([]byte, error) {
+	return json.Marshal(c)
+}
+
 // Server defines config for the server
 type Server struct {
 	Host string `json:"host"`
