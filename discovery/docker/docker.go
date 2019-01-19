@@ -53,10 +53,13 @@ func (d *Discovery) Search() error {
 	}
 	for _, c := range containers {
 		for _, p := range c.Ports {
-			d.servers = append(d.servers, &server.Server{
+			s := &server.Server{
 				Host: d.getContainerHost(c.ID, p.IP),
 				Port: uint32(p.PublicPort),
-			})
+			}
+			s.ID = discovery.GenID(s)
+			d.servers = append(d.servers, s)
+
 		}
 	}
 	fmt.Println(d.servers)
