@@ -1,6 +1,12 @@
 package discovery
 
-import "github.com/saromanov/golb/server"
+import (
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+
+	"github.com/saromanov/golb/server"
+)
 
 // Discovery defines interface for several ways for discovery
 type Discovery interface {
@@ -16,4 +22,12 @@ type Config struct {
 
 	// DockerEndpoint provides definition for endpoint
 	DockerEndpoint string
+}
+
+// GenID provides generation of ID for server
+func GenID(s *server.Server) string {
+	hasher := md5.New()
+	port := fmt.Sprintf("%s", s.Port)
+	hasher.Write([]byte(fmt.Sprintf("%s%s", s.Host, port)))
+	return hex.EncodeToString(hasher.Sum(nil))
 }
