@@ -215,7 +215,7 @@ func (g *GoLB) HandleMetrics(w http.ResponseWriter, r *http.Request) {
 
 // GetConfig retruns current config
 func (g *GoLB) GetConfig(w http.ResponseWriter, r *http.Request) {
-	data, err := g.Stats.Marshal()
+	data, err := g.conf.Marshal()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
