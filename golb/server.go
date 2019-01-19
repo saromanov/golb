@@ -16,7 +16,7 @@ const defaultMetricsServer = "127.0.0.1:8099"
 type Server struct {
 }
 
-func makeHTTPServer() {
+func makeHTTPMetricsServer() {
 	fmt.Println("Starting of the metrics server...")
 	err := http.ListenAndServe(defaultMetricsServer, nil)
 	if err != nil {
@@ -24,7 +24,7 @@ func makeHTTPServer() {
 	}
 }
 
-func makeHTTPSServer(cfg *config.Config) {
+func makeHTTPSMetricsServer(cfg *config.Config) {
 	fmt.Println("Starting of the server")
 	err := http.ListenAndServeTLS(defaultMetricsServer, cfg.CertFilePath, cfg.KeyFilePath, nil)
 	if err != nil {

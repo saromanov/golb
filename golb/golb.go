@@ -114,10 +114,10 @@ func (g *GoLB) Build() error {
 	}
 
 	if g.Scheme == "https" {
-		makeHTTPSServer(g.conf)
+		go makeHTTPSMetricsServer(g.conf)
+	} else {
+		go makeHTTPMetricsServer()
 	}
-	go makeHTTPServer()
-	fmt.Println("MAKED")
 	g.Stats = &Stats{StatusCodes: map[int]uint32{}}
 	return nil
 }
