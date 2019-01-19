@@ -81,7 +81,7 @@ func New(conf *config.Config) *GoLB {
 		}
 		g.disc = d
 		servers := d.GetServers()
-		logger.Infof("Docker: discovered %d servers", len(servers))
+		logger.Infof("Json: discovered %d servers", len(servers))
 		g.Servers = servers
 	}
 	return g

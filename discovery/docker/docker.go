@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"fmt"
 	"regexp"
 
 	"github.com/fsouza/go-dockerclient"
@@ -19,17 +20,17 @@ type Discovery struct {
 }
 
 // New provides initialization of docker and Discovery
-func New(cfg *discovery.Config) (Discovery, error) {
+func New(cfg *discovery.Config) (*Discovery, error) {
 	endpoint := defaultEndpoint
 	if cfg.DockerEndpoint != "" {
 		endpoint = cfg.DockerEndpoint
 	}
 	client, err := docker.NewClient(endpoint)
 	if err != nil {
-		return Discovery{}, err
+		return nil, err
 	}
 
-	return Discovery{
+	return &Discovery{
 		client: client,
 		cfg:    cfg,
 	}, nil
@@ -37,7 +38,7 @@ func New(cfg *discovery.Config) (Discovery, error) {
 
 // Search provides getting of containers and add their host
 // on backend representation of server
-func (d Discovery) Search() error {
+func (d *Discovery) Search() error {
 	var filters map[string][]string
 	if d.cfg.Filters != "" {
 		filters = map[string][]string{
@@ -50,7 +51,7 @@ func (d Discovery) Search() error {
 	if err != nil {
 		return err
 	}
-
+	fmt.Println(containers)
 	for _, c := range containers {
 		for _, p := range c.Ports {
 			d.servers = append(d.servers, &server.Server{
@@ -59,11 +60,12 @@ func (d Discovery) Search() error {
 			})
 		}
 	}
+	fmt.Println(d.servers)
 	return nil
 }
 
 // GetServers retruns list of servers
-func (d Discovery) GetServers() []*server.Server {
+func (d *Discovery) GetServers() []*server.Server {
 	err := d.Search()
 	if err != nil {
 		return nil
