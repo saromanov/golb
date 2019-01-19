@@ -118,6 +118,12 @@ func (g *GoLB) Build() error {
 	} else {
 		go makeHTTPMetricsServer()
 	}
+
+	go func(golb *GoLB) {
+		log.Println("starting of http server")
+		http.HandleFunc("/", golb.HandleHTTP)
+		log.Fatal(http.ListenAndServe(":8080", nil))
+	}(g)
 	g.Stats = &Stats{StatusCodes: map[int]uint32{}}
 	return nil
 }
