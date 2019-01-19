@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/saromanov/golb/config"
+	"github.com/saromanov/golb/discovery"
 	"github.com/saromanov/golb/server"
 )
 
@@ -42,6 +43,7 @@ func getServers(c *config.Config) []*server.Server {
 			Host: s.Host,
 			Port: s.Port,
 		}
+		result[i].ID = discovery.GenID(result[i])
 	}
 	return result
 }
