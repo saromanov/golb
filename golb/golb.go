@@ -122,7 +122,8 @@ func (g *GoLB) Build() error {
 	go func(golb *GoLB) {
 		log.Println("starting of http server")
 		http.HandleFunc("/", golb.HandleHTTP)
-		http.HandleFunc("/metrics", golb.HandleMetrics)
+		http.HandleFunc("/v1/metrics", golb.HandleMetrics)
+		http.HandleFunc("/v1/config", golb.GetConfig)
 		log.Fatal(http.ListenAndServe(":8080", nil))
 	}(g)
 	g.Stats = &Stats{StatusCodes: map[int]uint32{}}
@@ -201,6 +202,19 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 
 // HandleMetrics retruns current metrics of the load balancer
 func (g *GoLB) HandleMetrics(w http.ResponseWriter, r *http.Request) {
+	data, err := g.Stats.Marshal()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(data)
+}
+
+// GetConfig retruns current config
+func (g *GoLB) GetConfig(w http.ResponseWriter, r *http.Request) {
 	data, err := g.Stats.Marshal()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
