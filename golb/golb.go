@@ -22,6 +22,7 @@ var (
 	errUnknownBalancerType = errors.New("unknown balancer type")
 	errNoBalancer          = errors.New("balancer is not defined")
 	errServerNotFound      = errors.New("server not found")
+	errUnableToAddServer   = errors.New("unable to add server")
 )
 
 // GoLB defines main struct of app
@@ -133,7 +134,7 @@ func (g *GoLB) Build() error {
 // AddServer adds a new server to the GoLB
 func (g *GoLB) AddServer(s *server.Server) error {
 	if s == nil || s.Host == "" {
-		return fmt.Errorf("unable to add server")
+		return errUnableToAddServer
 	}
 	g.Servers = append(g.Servers, s)
 	g.Stats.Servers++
@@ -141,9 +142,9 @@ func (g *GoLB) AddServer(s *server.Server) error {
 }
 
 // RemoveServer provides removing of server from list
-func (g *GoLB) RemoveServer(ID string) error {
+func (g *GoLB) RemoveServer(id string) error {
 	for i, x := range g.Servers {
-		if x.ID == ID {
+		if x.ID == id {
 			g.Servers = append(g.Servers[:i], g.Servers[i+1:]...)
 			return nil
 		}
@@ -179,10 +180,10 @@ func (g *GoLB) HandleHTTP(w http.ResponseWriter, r *http.Request) {
 	serv, err := g.SelectServer()
 	switch err {
 	case errNoServers:
-		log.Printf(err.Error())
+		log.Print(err.Error())
 		return
 	case errUnknownBalancerType:
-		log.Printf(err.Error())
+		log.Print(err.Error())
 		return
 	default:
 		// TODO: try again
