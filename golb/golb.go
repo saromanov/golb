@@ -136,6 +136,7 @@ func (g *GoLB) AddServer(s *server.Server) error {
 	if s == nil || s.Host == "" {
 		return errUnableToAddServer
 	}
+	s.ID = discovery.GenID(s)
 	g.Servers = append(g.Servers, s)
 	g.Stats.Servers++
 	return nil
