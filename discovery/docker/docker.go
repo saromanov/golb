@@ -76,6 +76,9 @@ func (d *Discovery) GetServers() []*server.Server {
 }
 
 func (d *Discovery) getContainerHost(id, portHost string) string {
+	if id == "" {
+		return ""
+	}
 	if portHost != "0.0.0.0" {
 		return portHost
 	}

@@ -28,6 +28,6 @@ type Config struct {
 func GenID(s *server.Server) string {
 	hasher := md5.New()
 	port := fmt.Sprintf("%d", s.Port)
-	hasher.Write([]byte(fmt.Sprintf("%s%s", s.Host, port)))
+	hasher.Write([]byte(fmt.Sprintf("%s%s", s.Host, port))) // nolint
 	return hex.EncodeToString(hasher.Sum(nil))
 }
